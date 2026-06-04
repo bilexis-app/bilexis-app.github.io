@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bilexis - İngilizce Öğren / Learn English</title>
+  <meta name="description" content="Bilexis, İngilizce öğrenmeyi düzenli ve kolay hale getiren bir öğrenme uygulamasıdır." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #1565C0;
+      --blue-light: #1E88E5;
+      --blue-dark: #0D47A1;
+      --accent: #42A5F5;
+      --bg: #F0F7FF;
+      --white: #FFFFFF;
+      --text: #1A237E;
+      --text-sub: #455A64;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* LANG TOGGLE */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 24px;
+      background: var(--blue-dark);
+    }
+    .lang-btn {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-btn:hover {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    /* HERO */
+    header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-light) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 60px 24px 50px;
+    }
+
+    .app-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 22px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .app-icon-placeholder {
+      font-size: 42px;
+    }
+
+    header h1 {
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    header h1 span { color: var(--accent); }
+
+    .tagline {
+      font-size: clamp(15px, 3vw, 18px);
+      opacity: 0.88;
+      margin-top: 10px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    /* PLAY BUTTON */
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      color: var(--blue-dark);
+      text-decoration: none;
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      margin-top: 32px;
+      font-weight: 700;
+      font-size: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .play-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+    .play-btn svg { flex-shrink: 0; }
+
+    /* FEATURES */
+    main {
+      flex: 1;
+      padding: 48px 24px;
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 28px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(21, 101, 192, 0.08);
+    }
+    .feature-card .icon { font-size: 32px; margin-bottom: 10px; }
+    .feature-card h3 { font-size: 15px; color: var(--blue-dark); margin-bottom: 6px; }
+    .feature-card p  { font-size: 13px; color: var(--text-sub); line-height: 1.5; }
+
+    /* FOOTER */
+    footer {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    .footer-sep { margin: 0 8px; opacity: 0.4; }
+
+    /* i18n */
+    [data-lang="en"] { display: none; }
+    body.en [data-lang="tr"] { display: none; }
+    body.en [data-lang="en"] { display: revert; }
+  </style>
+</head>
+<body>
+
+  <!-- LANG TOGGLE -->
+  <div class="lang-bar">
+    <button class="lang-btn" id="langToggle" onclick="toggleLang()">EN</button>
+  </div>
+
+  <!-- HERO -->
+  <header>
+    <div class="app-icon">
+      <!-- Replace logo.png with your actual logo file -->
+      <img src="logo.png" alt="Bilexis Logo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+           style="display:block;" />
+      <span class="app-icon-placeholder" style="display:none;">📘</span>
+    </div>
+
+    <h1>Bilexi<span>s</span></h1>
+
+    <p class="tagline" data-lang="tr">
+      İngilizce öğrenmeyi düzenli ve kolay hale getiren uygulama
+    </p>
+    <p class="tagline" data-lang="en">
+      The app that makes learning English regular and easy
+    </p>
+
+    <a class="play-btn"
+       href="https://play.google.com/store/apps/details?id=com.bilexis.ingilizceogren&hl=tr"
+       target="_blank" rel="noopener">
+      <!-- Google Play icon -->
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.18 1.11C2.76 1.35 2.5 1.79 2.5 2.28v19.44c0 .49.26.93.68 1.17l.1.06 10.89-10.89v-.26L3.28 1.05l-.1.06z" fill="#EA4335"/>
+        <path d="M17.52 15.43l-3.63-3.63v-.26l3.63-3.63.08.05 4.3 2.44c1.23.7 1.23 1.83 0 2.53l-4.3 2.44-.08.06z" fill="#FBBC04"/>
+        <path d="M17.6 15.37L13.89 11.66 3.18 22.37c.4.43 1.07.48 1.82.05l12.6-7.05" fill="#34A853"/>
+        <path d="M17.6 7.95L5 .9C4.25.47 3.58.52 3.18.95l10.71 10.71 3.71-3.71z" fill="#4285F4"/>
+      </svg>
+      <span data-lang="tr">Google Play'den İndir</span>
+      <span data-lang="en">Get it on Google Play</span>
+    </a>
+  </header>
+
+  <!-- FEATURES -->
+  <main>
+    <h2 class="section-title" data-lang="tr">Neden Bilexis?</h2>
+    <h2 class="section-title" data-lang="en">Why Bilexis?</h2>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="icon">📚</div>
+        <h3 data-lang="tr">Dersler</h3>
+        <h3 data-lang="en">Lessons</h3>
+        <p data-lang="tr">Adım adım ilerleyen yapılandırılmış derslerle öğren.</p>
+        <p data-lang="en">Learn with structured lessons that progress step by step.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">✏️</div>
+        <h3 data-lang="tr">Alıştırmalar</h3>
+        <h3 data-lang="en">Exercises</h3>
+        <p data-lang="tr">Pratik alıştırmalarla konuları pekiştir.</p>
+        <p data-lang="en">Reinforce topics with practical exercises.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🧠</div>
+        <h3 data-lang="tr">Quizler</h3>
+        <h3 data-lang="en">Quizzes</h3>
+        <p data-lang="tr">Quizlerle bilgini test et ve ilerleni ölç.</p>
+        <p data-lang="en">Test your knowledge and measure your progress.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      &copy; 2025 Bilexis
+      <span class="footer-sep">|</span>
+      <a href="mailto:bilexisapp@gmail.com">bilexisapp@gmail.com</a>
+      <span class="footer-sep">|</span>
+      <a href="#" data-lang="tr">Gizlilik Politikası</a>
+      <a href="#" data-lang="en">Privacy Policy</a>
+    </p>
+  </footer>
+
+  <script>
+    function toggleLang() {
+      var btn = document.getElementById('langToggle');
+      if (document.body.classList.contains('en')) {
+        document.body.classList.remove('en');
+        btn.textContent = 'EN';
+        document.documentElement.lang = 'tr';
+      } else {
+        document.body.classList.add('en');
+        btn.textContent = 'TR';
+        document.documentElement.lang = 'en';
+      }
+    }
+  </script>
+
+</body>
+</html>
