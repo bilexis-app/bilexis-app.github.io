@@ -1,4 +1,1 @@
-# app-ads.txt for Bilexis
-# https://support.google.com/admob/answer/9110426
-# Add your ad network lines below, e.g.:
-# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, pub-7595484624462136, DIRECT, f08c47fec0942fa0
